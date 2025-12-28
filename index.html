@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-CTZN | Chengalpattu District Command</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="loginOverlay">
+    <div class="login-card">
+        <h2>E-CTZN TERMINAL</h2>
+        <p class="district-tag">CHENGALPATTU DISTRICT JURISDICTION</p>
+        <div class="form-group">
+            <label>Access Tier</label>
+            <select id="userRole" onchange="toggleKey(this.value)">
+                <option value="User">Volunteer/Reporter</option>
+                <option value="Admin">District Administrator</option>
+            </select>
+        </div>
+        <div id="adminKeyContainer" class="hidden form-group">
+            <label>Security Key</label>
+            <input type="password" id="adminKey" placeholder="Default: 1234">
+        </div>
+        <button onclick="Engine.login()" class="btn-primary">Initialize Session</button>
+    </div>
+</div>
+
+<nav class="sidebar">
+    <div class="sidebar-header">E-CTZN COMMAND<small>CHENGALPATTU HQ</small></div>
+    <a onclick="Engine.showSection('home')">Summary</a>
+    <a onclick="Engine.showSection('volunteer')">Personnel</a>
+    <a onclick="Engine.showSection('task')">SOS Intelligence</a>
+    <a onclick="Engine.showSection('dashboard')">Operations</a>
+    <div class="sidebar-footer">
+        <button onclick="localStorage.clear(); location.reload();" class="btn-reset">FACTORY RESET</button>
+    </div>
+</nav>
+
+<main class="main">
+    <section id="homeSection" class="content-container">
+        <div id="apiAlert" class="hidden alert-banner"></div>
+        <h1>District Overview</h1>
+        <div class="form-grid">
+            <div id="intelPanel" class="card full-width hidden">
+                <h3>Chengalpattu Intel Feeds</h3>
+                <div class="form-grid">
+                    <div class="api-box">
+                        <small>USGS Global (Seismic)</small>
+                        <button onclick="Engine.fetchUSGS()" class="btn-intel">Scan Sensors</button>
+                    </div>
+                    <div class="api-box">
+                        <small>PurpleAir (AQI)</small>
+                        <button onclick="Engine.fetchPurpleAir()" class="btn-intel btn-info">Check Local AQI</button>
+                    </div>
+                </div>
+                <p id="apiStatus" class="status-text">Awaiting District Scan...</p>
+            </div>
+            <div class="card">Verified Personnel<h2 id="statVols">0</h2></div>
+            <div class="card">Active Missions<h2 id="statIncidents">0</h2></div>
+            <div class="card full-width" id="personalStatusCard">
+                <h3>Personal Deployment Status</h3>
+                <p>Status: <span id="currentStatusText">---</span></p>
+                <button onclick="Engine.toggleDuty()" id="dutyBtn" class="btn-secondary">Toggle Duty Status</button>
+            </div>
+            <div class="card full-width">
+                <h3>Township Personnel Distribution</h3>
+                <div id="heatmapArea" class="heatmap-box"></div>
+            </div>
+        </div>
+    </section>
+    </main>
+
+<script src="script.js"></script>
+</body>
+</html>
